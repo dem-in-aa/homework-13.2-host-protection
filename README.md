@@ -21,42 +21,42 @@ sudo su -
 ```
 adduser --encrypt-home cryptouser
 ```
-![](img1-1.png)
+![](img/1-1.png)
 
 По мере выполнения задачи профиль пользователя был удален, поэтому при создании его вновь был добавлен флаг --force
 
 ```
 adduser --encrypt-home --force cryptouser
 ```
-![](img1-2.png)
+![](img/1-2.png)
 
 Для возможности выполнения операций с файлами в каталоге от имени пользователя **cryptouser** ему предоставлены права:
 
 ```
 chmod 755 /home/cryptouser
 ```
-![](img1-3.png)
+![](img/1-3.png)
 
 После создания файлов содержимое каталога выглядит следующим образом:
 
-![](img1-4.png)
+![](img/1-4.png)
 ---
-![](img1-5.png)
+![](img/1-5.png)
 
 Содержимое файлов доступно для чтения:
 
-![](img1-7.png)
+![](img/1-7.png)
 
 Шифрование каталога **cryptouser** происходит путем его монтирования с файловой системой ecryptfs:
 
 ```
 mount -t ecryptfs /home/cryptouser/ /home/cryptouser/
 ```
-![](img1-6.png)
+![](img/1-6.png)
 
 После размонтирования каталога можно увидеть содержащиеся в нем файлы, однако их содержимое зашифровано:
 
-![](img1-8.png)
+![](img/1-8.png)
 
 
 ### Задание 2
@@ -81,18 +81,18 @@ sudo apt-get install cryptsetup
 ```
 cryptsetup --version
 ```
-![](img2-2.png)
+![](img/2-2.png)
 
 В ходе форматирования создан mbr-раздел и выполнено монтирование файловой системы:
 
-![](img2-3.png)
+![](img/2-3.png)
 
 Создан шифрованный раздел:
 
 ```
 sudo cryptsetup -y -v --type luks2 luksFormat /dev/sdb1
 ```
-![](img2-4.png)
+![](img/2-4.png)
 
 Произведено монтирование и форматирование шифрованного раздела:
 
@@ -103,7 +103,7 @@ sudo cryptsetup luksOpen /dev/sdb1 disk
 sudo dd if=/dev/zero of=/dev/mapper/disk
 sudo mkfs.ext4 /dev/mapper/disk
 ```
-![](img2-5.png)
+![](img/2-5.png)
 
 Создан и смонтирован каталог **.secret**
 
@@ -111,17 +111,17 @@ sudo mkfs.ext4 /dev/mapper/disk
 mkdir .secret
 sudo mount /dev/mapper/disk .secret/ 
 ```
-![](img2-6.png)
+![](img/2-6.png)
 
 Содержимое каталога **.secret**
 
-![](img2-7.png)
+![](img/2-7.png)
 
 Созданы файлы:
 
-![](img2-8.png)
+![](img/2-8.png)
 ---
-![](img2-9.png)
+![](img/2-9.png)
 
 После размонтирования файлы в каталоге **.secret** скрыты:
 
@@ -129,7 +129,7 @@ sudo mount /dev/mapper/disk .secret/
 sudo umount .secret
 sudo cryptsetup luksClose disk
 ```
-![](img2-10.png)
+![](img/2-10.png)
 
 
 ### Задание 3 *
@@ -145,11 +145,11 @@ sudo cryptsetup luksClose disk
 
 После установки **apparmor** проверен статус загруженных профилей:
 
-![](img3-1.png)
+![](img/3-1.png)
 
 В каталоге /etc/apparmor.d расположены профили **AppArmor**. Его можно использовать для управления режимом всех профилей.
 
-![](img3-2.png)
+![](img/3-2.png)
 
 Чтобы перевести все профили в режим обучения:
 ```
@@ -166,28 +166,28 @@ sudo cp /bin/ping /usr/bin/man
 sudo aa-complain /usr/bin/man
 sudo man 127.0.0.1
 ```
-![](img3-3.png)
+![](img/3-3.png)
 
 После этого **apparmor** переведен в защищенный режим:
 ```
 sudo aa-enforce man
 ```
 
-![](img3-4.png)
+![](img/3-4.png)
 
 Остановка сервиса **apparmor**
 ```
 sudo service apparmor stop
 ```
-![](img3-5.png)
+![](img/3-5.png)
 
 Выгрузка профилей:
 ```
 sudo service apparmor teardown
 ```
-![](img3-6.png)
+![](img/3-6.png)
 
 Удаление **apparmor**
 
-![](img3-7.png)
+![](img/3-7.png)
 
